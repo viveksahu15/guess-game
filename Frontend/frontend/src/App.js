@@ -8,20 +8,22 @@ function App() {
   const [selectedUser, setSelectedUser] = useState('');
   const [newUser, setNewUser] = useState('');
 
+  const BASE_URL = 'https://guess-game-1-cyyd.onrender.com';
+
   const fetchUsers = async () => {
-    const res = await axios.get('http://localhost:5000/api/users');
+    const res = await axios.get(`${BASE_URL}/api/users`);
     setUsers(res.data);
   };
 
   const handleClaim = async () => {
     if (!selectedUser) return;
-    await axios.post(`http://localhost:5000/api/users/claim/${selectedUser}`);
+    await axios.post(`${BASE_URL}/api/users/claim/${selectedUser}`);
     fetchUsers();
   };
 
   const handleAddUser = async () => {
     if (!newUser) return;
-    await axios.post('http://localhost:5000/api/users/add', { name: newUser });
+    await axios.post(`${BASE_URL}/api/users/add`, { name: newUser });
     setNewUser('');
     fetchUsers();
   };
