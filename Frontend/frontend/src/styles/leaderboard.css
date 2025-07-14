@@ -215,3 +215,6 @@ body {
   margin: 0 10px;
   border: 1px solid #ddd;
 }
+.user-row .name {
+  margin-right: 16px; /* adjust gap */
+}
