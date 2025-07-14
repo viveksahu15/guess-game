@@ -1,5 +1,5 @@
 
-# Guess Game – Leaderboard System (3W Internship Task)
+# Guess Game – Leaderboard System 
 
 A fullstack leaderboard web app built using:
 - React (frontend)
