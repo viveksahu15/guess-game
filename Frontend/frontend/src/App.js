@@ -7,12 +7,19 @@ function App() {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState('');
   const [newUser, setNewUser] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const BASE_URL = 'https://guess-game-1-cyyd.onrender.com';
 
   const fetchUsers = async () => {
-    const res = await axios.get(`${BASE_URL}/api/users`);
-    setUsers(res.data);
+    try {
+      const res = await axios.get(`${BASE_URL}/api/users`);
+      setUsers(res.data);
+    } catch (err) {
+      console.error('Failed to fetch users:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleClaim = async () => {
@@ -22,14 +29,25 @@ function App() {
   };
 
   const handleAddUser = async () => {
-    if (!newUser) return;
+    if (!newUser.trim()) return;
     await axios.post(`${BASE_URL}/api/users/add`, { name: newUser });
     setNewUser('');
     fetchUsers();
   };
 
-  useEffect(() => {
+  const handleDeleteUser = async () => {
+    if (!selectedUser) return;
+    await axios.delete(`${BASE_URL}/api/users/delete/${selectedUser}`);
+    setSelectedUser('');
     fetchUsers();
+  };
+
+  useEffect(() => {
+    // Wake up the Render backend
+    fetch(`${BASE_URL}/api/users`).catch(() => {});
+    setTimeout(() => {
+      fetchUsers();
+    }, 1500);
   }, []);
 
   return (
@@ -47,6 +65,9 @@ function App() {
           ))}
         </select>
         <button onClick={handleClaim}>Claim Points</button>
+        <button onClick={handleDeleteUser} style={{ backgroundColor: '#e53935', marginLeft: '10px' }}>
+          Delete User
+        </button>
       </div>
 
       <div className="add-user">
@@ -59,7 +80,7 @@ function App() {
         <button className="add-button" onClick={handleAddUser}>Add User</button>
       </div>
 
-      <Leaderboard users={users} />
+      {loading ? <p>🔄 Waking up backend... please wait</p> : <Leaderboard users={users} />}
     </div>
   );
 }

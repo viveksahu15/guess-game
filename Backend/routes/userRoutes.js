@@ -32,10 +32,20 @@ router.post('/claim/:id', async (req, res) => {
   res.json({ user, points });
 });
 
-// Get history for a user
+// Delete a user
+router.delete('/delete/:id', async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: 'User deleted' });
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to delete user' });
+  }
+});
+
+// Get history (optional)
 router.get('/history/:id', async (req, res) => {
   const history = await History.find({ userId: req.params.id }).sort({ timestamp: -1 });
   res.json(history);
 });
 
-module.exports = router; // ✅ THIS MUST EXIST!
+module.exports = router;

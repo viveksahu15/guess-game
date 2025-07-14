@@ -218,3 +218,12 @@ body {
 .user-row .name {
   margin-right: 16px; /* adjust gap */
 }
+
+.controls button:nth-child(3) {
+  background-color: #e53935;
+}
+
+.controls button:nth-child(3):hover {
+  background-color: #c62828;
+}
+
