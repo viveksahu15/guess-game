@@ -22,6 +22,7 @@ Built with:
 
 - ➕ Add new users
 - 🎯 Claim random points for selected user
+- 🗑️ Delete users
 - 🏆 Visually enhanced leaderboard with top 3 highlights and animations
 - 🔐 Integrated with MongoDB Atlas cloud database
 
